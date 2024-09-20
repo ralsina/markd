@@ -21,6 +21,7 @@ module Markd
       HTMLInline
       LineBreak
       SoftBreak
+      Table
 
       CustomInLine
       CustomBlock
@@ -44,6 +45,7 @@ module Markd
       Type::BlockQuote,
       Type::CustomInLine,
       Type::CustomBlock,
+      Type::Table,
     }
 
     alias DataValue = String | Int32 | Bool
