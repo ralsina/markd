@@ -9,7 +9,7 @@ module Markd
 
     HEADINGS = %w(h1 h2 h3 h4 h5 h6)
 
-    def heading(node : Node, entering : Bool)
+    def heading(node : Node, entering : Bool) : Nil
       tag_name = HEADINGS[node.data["level"].as(Int32) - 1]
       if entering
         newline
@@ -21,7 +21,7 @@ module Markd
       end
     end
 
-    def code(node : Node, entering : Bool)
+    def code(node : Node, entering : Bool) : Nil
       tag("code") do
         code_body(node)
       end
@@ -31,7 +31,7 @@ module Markd
       output(node.text)
     end
 
-    def code_block(node : Node, entering : Bool, formatter : T?) forall T
+    def code_block(node : Node, entering : Bool, formatter : T?) : Nil forall T
       {% if @top_level.has_constant?("Tartrazine") %}
         render_code_block_use_tartrazine(node, formatter)
       {% else %}
@@ -43,17 +43,17 @@ module Markd
       languages.try(&.first?).try(&.strip.presence)
     end
 
-    def code_block_body(node : Node, lang : String?)
+    def code_block_body(node : Node, lang : String?) : Nil
       output(node.text)
     end
 
-    def thematic_break(node : Node, entering : Bool)
+    def thematic_break(node : Node, entering : Bool) : Nil
       newline
       tag("hr", attrs(node), self_closing: true)
       newline
     end
 
-    def block_quote(node : Node, entering : Bool)
+    def block_quote(node : Node, entering : Bool) : Nil
       newline
       if entering
         tag("blockquote", attrs(node))
@@ -63,7 +63,7 @@ module Markd
       newline
     end
 
-    def list(node : Node, entering : Bool)
+    def list(node : Node, entering : Bool) : Nil
       tag_name = node.data["type"] == "ordered" ? "ol" : "ul"
 
       newline
@@ -82,7 +82,7 @@ module Markd
       newline
     end
 
-    def item(node : Node, entering : Bool)
+    def item(node : Node, entering : Bool) : Nil
       if entering
         tag("li", attrs(node))
 
@@ -109,7 +109,7 @@ module Markd
       end
     end
 
-    def link(node : Node, entering : Bool)
+    def link(node : Node, entering : Bool) : Nil
       if entering
         attrs = attrs(node)
         destination = node.data["destination"].as(String)
@@ -141,7 +141,7 @@ module Markd
       base_url.resolve(uri).to_s
     end
 
-    def image(node : Node, entering : Bool)
+    def image(node : Node, entering : Bool) : Nil
       if entering
         if @disable_tag == 0
           destination = node.data["destination"].as(String)
@@ -164,19 +164,19 @@ module Markd
       end
     end
 
-    def html_block(node : Node, entering : Bool)
+    def html_block(node : Node, entering : Bool) : Nil
       newline
       content = @options.safe? ? "<!-- raw HTML omitted -->" : node.text
       literal(content)
       newline
     end
 
-    def html_inline(node : Node, entering : Bool)
+    def html_inline(node : Node, entering : Bool) : Nil
       content = @options.safe? ? "<!-- raw HTML omitted -->" : node.text
       literal(content)
     end
 
-    def paragraph(node : Node, entering : Bool)
+    def paragraph(node : Node, entering : Bool) : Nil
       if (grand_parent = node.parent?.try &.parent?) && grand_parent.type.list?
         return if grand_parent.data["tight"]
       end
@@ -190,7 +190,7 @@ module Markd
       end
     end
 
-    def emphasis(node : Node, entering : Bool)
+    def emphasis(node : Node, entering : Bool) : Nil
       if entering
         node.data["strong_stack"] = @strong_stack
         @strong_stack = 0
@@ -203,16 +203,16 @@ module Markd
       end
     end
 
-    def soft_break(node : Node, entering : Bool)
+    def soft_break(node : Node, entering : Bool) : Nil
       literal("\n")
     end
 
-    def line_break(node : Node, entering : Bool)
+    def line_break(node : Node, entering : Bool) : Nil
       tag("br", self_closing: true)
       newline
     end
 
-    def strong(node : Node, entering : Bool)
+    def strong(node : Node, entering : Bool) : Nil
       @strong_stack -= 1 if @options.gfm && !entering
 
       tag("strong", end_tag: !entering) if (@strong_stack == 0)
@@ -220,11 +220,11 @@ module Markd
       @strong_stack += 1 if @options.gfm && entering
     end
 
-    def strikethrough(node : Node, entering : Bool)
+    def strikethrough(node : Node, entering : Bool) : Nil
       tag("del", end_tag: !entering)
     end
 
-    def text(node : Node, entering : Bool)
+    def text(node : Node, entering : Bool) : Nil
       output(node.text)
     end
 
