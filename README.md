@@ -52,6 +52,7 @@ Markd.to_html(markdown, options)
 | autolink    | `Bool` | false         | if **true**, more autolinks are detected, like bare email addresses or http links                                              |
 | toc         | `Bool` | false         | **Not supported for now**                                                                                                                                                         |
 | emoji       | `Bool` | false         | if **true**, convert Github style emoji chars. |
+| tagfilter   | `Bool` | false         | if **true**, escape certain HTML tags.           |
 | base_url    | `URI?` | nil           | if not **nil**, relative URLs of links are resolved against this `URI`. It act's like HTML's `<base href="base_url">` in the context of a Markdown document.                    |
 
 ## Advanced
