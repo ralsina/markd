@@ -74,7 +74,7 @@ module Markd
     abstract def table(node : Node, entering : Bool) : Nil
     abstract def text(node : Node, entering : Bool) : Nil
 
-    def render(document : Node, formatter : T?) forall T
+    def render(document : Node, formatter : T? = nil) forall T
       Utils.timer("rendering", @options.time?) do
         walker = document.walker
         while (event = walker.next)
