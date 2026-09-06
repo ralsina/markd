@@ -296,7 +296,9 @@ module Markd::Parser
           remove_bracket
           return true
         end
-        title = @text[opener.@index + 2...@pos - 1]
+        # @pos and opener.@index are byte offsets: slice bytes, or any
+        # multi-byte character earlier in the line shifts the label.
+        title = @text.byte_slice(opener.@index + 2, @pos - opener.@index - 3)
         matched = true
       end
 
